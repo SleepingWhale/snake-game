@@ -1,5 +1,14 @@
 import * as React from 'react';
 import { Cell } from './Cell';
+import { TDirection } from '../redux/game';
+
+enum keyCodes {
+  left = 37,
+  up = 38,
+  right = 39,
+  down = 40,
+  space = 32
+}
 
 
 export type ConnectedState = {
@@ -10,6 +19,8 @@ export type ConnectedState = {
 
 export type ConnectedDispatch = {
   onGameStart: () => void;
+  onMakeMove: () => void;
+  onMakeTurn: (direction: TDirection) => void;
 }
 
 
@@ -21,14 +32,41 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.onKeyPressed);
+    this.stopMoving();
   }
 
   onKeyPressed = (e) => {
     console.log(e.keyCode);
-    if (e.keyCode === 32) {
-      this.props.onGameStart();
+    switch (e.keyCode) {
+      case keyCodes.space:
+        this.props.onGameStart();
+        this.startMoving();
+        break;
+      case keyCodes.left:
+        this.props.onMakeTurn('left');
+        break;
+      case keyCodes.right:
+        this.props.onMakeTurn('right');
+        break;
+      case keyCodes.up:
+        this.props.onMakeTurn('up');
+        break;
+      case keyCodes.down:
+        this.props.onMakeTurn('down');
+        break;
     }
   };
+  
+  interval;
+  
+  startMoving = () => {
+    this.interval = setInterval(this.props.onMakeMove, 10);
+  };
+  
+  stopMoving = () => {
+    clearInterval(this.interval);
+  };
+  
   
   render() {
     const {

@@ -1,13 +1,13 @@
 import { SettingsState } from './settings';
 
-type direction = 'left' | 'right' | 'up' | 'down';
+export type TDirection = 'left' | 'right' | 'up' | 'down';
 
 export interface GameState {
   isRunning: boolean;
   score: number;
   applePosition: number;
   snakePosition: number[];
-  snakeDirection: direction;
+  snakeDirection: TDirection;
 }
 
 export interface SettingsActionPayload {
@@ -19,7 +19,7 @@ const initialState: GameState = {
   isRunning: false,
   score: 0,
   applePosition: 0,
-  snakePosition: [13,14,15],
+  snakePosition: [13,14,15,16,17,18],
   snakeDirection: 'right'
 };
 
@@ -40,7 +40,7 @@ export interface StarGameAction {
 
 export interface MakeTurnAction {
   type: GAME_MAKE_TURN;
-  payload: direction;
+  payload: TDirection;
 }
 
 export interface MakeMoveAction {
@@ -90,12 +90,17 @@ export const startGame = (): StarGameAction => ({
   type: GAME_START
 });
 
-export const makeTurn = (direction: direction): MakeTurnAction => ({
+export const makeTurn = (direction: TDirection): MakeTurnAction => ({
   type: GAME_MAKE_TURN,
   payload: direction
 });
 
-function calcNextCell(direction: direction, currentCell: number, width: number, height?: number): number {
+export const makeMove = (settings: SettingsState): MakeMoveAction => ({
+  type: GAME_MAKE_MOVE,
+  settings
+});
+
+function calcNextCell(direction: TDirection, currentCell: number, width: number, height?: number): number {
   switch (direction) {
     case 'left':
       return currentCell - 1;
