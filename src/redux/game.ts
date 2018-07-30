@@ -10,17 +10,12 @@ export interface GameState {
   snakeDirection: TDirection;
 }
 
-export interface SettingsActionPayload {
-  name: string;
-  value: number;
-}
-
 const initialState: GameState = {
   isRunning: false,
   score: 0,
   applePosition: 0,
-  snakePosition: [13,14,15,16,17,18],
-  snakeDirection: 'right'
+  snakePosition: [13,14],
+  snakeDirection: 'down'
 };
 
 
@@ -62,7 +57,7 @@ export default function reducer(state: GameState = initialState, action: GameAct
     case GAME_MAKE_TURN:
       return {
         ...state,
-        snakeDirection: action.payload,
+        snakeDirection: calcDirection(action.payload, state.snakeDirection, state.snakePosition),
       };
     case GAME_MAKE_MOVE: {
       const {
@@ -100,7 +95,7 @@ export const makeMove = (settings: SettingsState): MakeMoveAction => ({
   settings
 });
 
-function calcNextCell(direction: TDirection, currentCell: number, width: number, height?: number): number {
+function calcNextCell(direction: TDirection, currentCell: number, width: number, height: number): number {
   switch (direction) {
     case 'left':
       return currentCell - 1;
@@ -111,4 +106,13 @@ function calcNextCell(direction: TDirection, currentCell: number, width: number,
     case 'down':
       return currentCell + width;
   }
+}
+
+function calcDirection(newDirection: TDirection, prevDirection: TDirection, snakePosition: number[]): TDirection {
+  if (((newDirection === 'left' && prevDirection === 'right')
+    || (newDirection === 'right' && prevDirection === 'left')
+    || (newDirection === 'up' && prevDirection === 'down')
+    || (newDirection === 'down' && prevDirection === 'up')) && snakePosition.length > 1) { return prevDirection}
+    
+  return newDirection;
 }

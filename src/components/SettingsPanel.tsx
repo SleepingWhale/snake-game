@@ -7,12 +7,16 @@ export const SettingsPanel: React.SFC = () => {
   return (
     <div>
       <div>
-        <label htmlFor="">Width</label>
+        <label htmlFor="width">Width</label>
         <RangeContainer name="width" min={5} max={60} />
       </div>
       <div>
-        <label htmlFor="">Height</label>
+        <label htmlFor="height">Height</label>
         <RangeContainer name="height" min={5} max={30} />
+      </div>
+      <div>
+        <label htmlFor="speed">Speed</label>
+        <RangeContainer name="speed" min={1} max={100} />
       </div>
     </div>
   );

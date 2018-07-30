@@ -7,13 +7,16 @@ enum keyCodes {
   up = 38,
   right = 39,
   down = 40,
-  space = 32
+  space = 32,
+  pause = 80
 }
 
 
 export type ConnectedState = {
   width: number;
   height: number;
+  speed: number;
+  isRunning: number;
   snakePosition: number[];
 };
 
@@ -39,6 +42,7 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
     console.log(e.keyCode);
     switch (e.keyCode) {
       case keyCodes.space:
+        if (this.props.isRunning) this.stopMoving();
         this.props.onGameStart();
         this.startMoving();
         break;
@@ -54,13 +58,16 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
       case keyCodes.down:
         this.props.onMakeTurn('down');
         break;
+      case keyCodes.pause:
+        this.stopMoving();
+        break;
     }
   };
   
   interval;
   
   startMoving = () => {
-    this.interval = setInterval(this.props.onMakeMove, 10);
+    this.interval = setInterval(this.props.onMakeMove, 1000 / this.props.speed);
   };
   
   stopMoving = () => {

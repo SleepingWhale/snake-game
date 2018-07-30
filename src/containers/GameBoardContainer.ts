@@ -20,15 +20,17 @@ const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
 });
 
 const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispatch => {
-  const { height, width } = stateProps.settings;
-  const { snakePosition } = stateProps.game;
+  const { height, width, speed } = stateProps.settings;
+  const { snakePosition, isRunning } = stateProps.game;
 
   return {
+    ...dispatchProps,
+    onMakeMove: dispatchProps.onMakeMove(stateProps.settings),
+    snakePosition,
     height,
     width,
-    snakePosition,
-    ...dispatchProps,
-    onMakeMove: dispatchProps.onMakeMove(stateProps.settings)
+    speed,
+    isRunning
   };
 };
 
