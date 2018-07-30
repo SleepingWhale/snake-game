@@ -4,7 +4,11 @@
     "module": "esnext",
     "target": "es5",
     "jsx": "react",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es7"
+    ]
   },
   "include": ["src"],
   "compileOnSave": false
