@@ -67,12 +67,17 @@ export default function reducer(state: GameState = initialState, action: GameAct
       } = state;
       const { width, height } = action.settings;
       const nextCell = calcNextCell(snakeDirection, snakePosition[0], width, height);
-      const newSnakePosition: number[] = [nextCell, ...snakePosition.slice(0, snakePosition.length - 1)];
+      const gotApple: boolean = applePosition === nextCell;
+      const newSnakePosition: number[] = [nextCell, ...snakePosition];
       
+      if (applePosition !== nextCell) {
+        newSnakePosition.pop()
+      }
       
       return {
         ...state,
-        snakePosition: newSnakePosition
+        snakePosition: newSnakePosition,
+        applePosition: gotApple ? calcApplePosition(newSnakePosition, width, height) : applePosition
       };
     }
     default:
