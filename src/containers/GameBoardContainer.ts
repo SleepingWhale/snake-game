@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
 
 const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispatch => {
   const { height, width, speed } = stateProps.settings;
-  const { snakePosition, isRunning, applePosition } = stateProps.game;
+  const { snakePosition, isRunning, applePosition, isGameOver } = stateProps.game;
 
   return {
     ...dispatchProps,
@@ -32,6 +32,7 @@ const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispat
     width,
     speed,
     isRunning,
+    isGameOver,
     applePosition
   };
 };

@@ -4,17 +4,21 @@ export type TDirection = 'left' | 'right' | 'up' | 'down';
 
 export interface GameState {
   isRunning: boolean;
+  isGameOver: boolean;
   score: number;
   applePosition?: number;
   snakePosition: number[];
-  snakeDirection: TDirection;
+  snakeDirectionCurrent: TDirection;
+  snakeDirectionNext: TDirection;
 }
 
 const initialState: GameState = {
   isRunning: false,
+  isGameOver: false,
   score: 0,
-  snakePosition: [13,14],
-  snakeDirection: 'down'
+  snakePosition: [],
+  snakeDirectionCurrent: 'up',
+  snakeDirectionNext: 'up'
 };
 
 
@@ -48,36 +52,44 @@ type GameAction = StarGameAction | MakeTurnAction | MakeMoveAction;
 
 export default function reducer(state: GameState = initialState, action: GameAction): GameState {
   switch (action.type) {
-    case GAME_START:
+    case GAME_START: {
+      const { width, height } = action.settings;
+      const snakePosition: number[] = [width * Math.floor(height / 2) + Math.floor(width / 2)];
+      
       return {
         ...initialState,
         isRunning: true,
-        applePosition: calcApplePosition(initialState.snakePosition, action.settings.width, action.settings.height)
+        snakePosition,
+        applePosition: calcApplePosition(snakePosition, width, height)
       };
+    }
     case GAME_MAKE_TURN:
       return {
         ...state,
-        snakeDirection: calcDirection(action.payload, state.snakeDirection, state.snakePosition),
+        snakeDirectionNext: calcDirection(action.payload, state.snakeDirectionCurrent, state.snakePosition),
       };
     case GAME_MAKE_MOVE: {
       const {
-        snakeDirection,
+        snakeDirectionNext,
         snakePosition,
         applePosition
       } = state;
       const { width, height } = action.settings;
-      const nextCell = calcNextCell(snakeDirection, snakePosition[0], width, height);
+      const nextCell = calcNextCell(snakeDirectionNext, snakePosition[0], width, height);
       const gotApple: boolean = applePosition === nextCell;
+      const isDead: boolean = calcIsDead(nextCell, snakePosition, width, height);
       const newSnakePosition: number[] = [nextCell, ...snakePosition];
       
-      if (applePosition !== nextCell) {
+      if (applePosition !== nextCell && !isDead) {
         newSnakePosition.pop()
       }
       
       return {
         ...state,
         snakePosition: newSnakePosition,
-        applePosition: gotApple ? calcApplePosition(newSnakePosition, width, height) : applePosition
+        applePosition: gotApple ? calcApplePosition(newSnakePosition, width, height) : applePosition,
+        isGameOver: isDead,
+        snakeDirectionCurrent: snakeDirectionNext
       };
     }
     default:
@@ -132,4 +144,8 @@ function calcApplePosition(snakePosition: number[], width: number, height: numbe
   } while (snakePosition.includes(result));
   
   return result;
+}
+
+function calcIsDead(nextCell: number, snakePosition: number[], width: number, height: number): boolean {
+  return snakePosition.includes(nextCell);
 }

@@ -17,6 +17,7 @@ export type ConnectedState = {
   height: number;
   speed: number;
   isRunning: boolean;
+  isGameOver: boolean;
   applePosition: number;
   snakePosition: number[];
 };
@@ -28,7 +29,15 @@ export type ConnectedDispatch = {
 }
 
 
-export class GameBoard extends React.Component<ConnectedState & ConnectedDispatch, {}> {
+export class GameBoard extends React.Component<ConnectedState & ConnectedDispatch, {isPaused: boolean}> {
+  
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      isPaused: false
+    }
+  }
   
   componentDidMount() {
     document.addEventListener("keydown", this.onKeyPressed);
@@ -37,6 +46,12 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
   componentWillUnmount() {
     document.removeEventListener("keydown", this.onKeyPressed);
     this.stopMoving();
+  }
+  
+  componentDidUpdate() {
+    if (this.props.isRunning && this.props.isGameOver) {
+      this.stopMoving();
+    }
   }
 
   onKeyPressed = (e) => {
@@ -59,9 +74,17 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
       case keyCodes.down:
         this.props.onMakeTurn('down');
         break;
-      case keyCodes.pause:
-        this.stopMoving();
+      case keyCodes.pause: {
+        const { isPaused } = this.state;
+        
+        if (isPaused) {
+          this.startMoving();
+        } else {
+          this.stopMoving();
+        }
+        this.setState(() => ({ isPaused: !isPaused }));
         break;
+      }
     }
   };
   
@@ -93,6 +116,7 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
     
     for (let i = 0; i < width * height; i++) {
       let status: number = 0;
+      
       if (snakePosition.includes(i)) {
         status = 1;
       } else if (i === applePosition) {
