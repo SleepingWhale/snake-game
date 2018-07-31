@@ -5,7 +5,7 @@ export type TDirection = 'left' | 'right' | 'up' | 'down';
 export interface GameState {
   isRunning: boolean;
   score: number;
-  applePosition: number;
+  applePosition?: number;
   snakePosition: number[];
   snakeDirection: TDirection;
 }
@@ -13,7 +13,6 @@ export interface GameState {
 const initialState: GameState = {
   isRunning: false,
   score: 0,
-  applePosition: 0,
   snakePosition: [13,14],
   snakeDirection: 'down'
 };
@@ -31,6 +30,7 @@ type GAME_MAKE_MOVE = typeof GAME_MAKE_MOVE;
 
 export interface StarGameAction {
   type: GAME_START;
+  settings: SettingsState;
 }
 
 export interface MakeTurnAction {
@@ -52,7 +52,7 @@ export default function reducer(state: GameState = initialState, action: GameAct
       return {
         ...initialState,
         isRunning: true,
-        
+        applePosition: calcApplePosition(initialState.snakePosition, action.settings.width, action.settings.height)
       };
     case GAME_MAKE_TURN:
       return {
@@ -81,8 +81,9 @@ export default function reducer(state: GameState = initialState, action: GameAct
 }
 
 
-export const startGame = (): StarGameAction => ({
-  type: GAME_START
+export const startGame = (settings: SettingsState): StarGameAction => ({
+  type: GAME_START,
+  settings
 });
 
 export const makeTurn = (direction: TDirection): MakeTurnAction => ({
@@ -115,4 +116,15 @@ function calcDirection(newDirection: TDirection, prevDirection: TDirection, snak
     || (newDirection === 'down' && prevDirection === 'up')) && snakePosition.length > 1) { return prevDirection}
     
   return newDirection;
+}
+
+function calcApplePosition(snakePosition: number[], width: number, height: number): number {
+  const cellsQty: number = width * height;
+  let result: number;
+  
+  do {
+    result = Math.floor(Math.random() * cellsQty)
+  } while (snakePosition.includes(result));
+  
+  return result;
 }

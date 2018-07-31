@@ -16,7 +16,8 @@ export type ConnectedState = {
   width: number;
   height: number;
   speed: number;
-  isRunning: number;
+  isRunning: boolean;
+  applePosition: number;
   snakePosition: number[];
 };
 
@@ -79,7 +80,8 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
     const {
       width,
       height,
-      snakePosition
+      snakePosition,
+      applePosition
     } = this.props;
     const cells = [];
     const gameBoardStyle = {
@@ -90,7 +92,12 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
     };
     
     for (let i = 0; i < width * height; i++) {
-      const status: number = snakePosition.includes(i) ? 1 : 0;
+      let status: number = 0;
+      if (snakePosition.includes(i)) {
+        status = 1;
+      } else if (i === applePosition) {
+        status = 2;
+      }
       cells.push(<Cell status={status} key={i} />);
     }
     

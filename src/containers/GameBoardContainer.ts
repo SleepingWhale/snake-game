@@ -14,23 +14,25 @@ const mapStateToProps = (state: IStore): IStore => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
-  onGameStart: () => dispatch(startGame()),
+  onGameStart: (settings: SettingsState) => () => dispatch(startGame(settings)),
   onMakeMove: (settings: SettingsState) => () => dispatch(makeMove(settings)),
   onMakeTurn: (direction: TDirection) => dispatch(makeTurn(direction)),
 });
 
 const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispatch => {
   const { height, width, speed } = stateProps.settings;
-  const { snakePosition, isRunning } = stateProps.game;
+  const { snakePosition, isRunning, applePosition } = stateProps.game;
 
   return {
     ...dispatchProps,
     onMakeMove: dispatchProps.onMakeMove(stateProps.settings),
+    onGameStart: dispatchProps.onGameStart(stateProps.settings),
     snakePosition,
     height,
     width,
     speed,
-    isRunning
+    isRunning,
+    applePosition
   };
 };
 
