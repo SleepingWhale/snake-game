@@ -10,9 +10,9 @@ export interface SettingsActionPayload {
 }
 
 const initialState: SettingsState = {
-  width: 5,
-  height: 5,
-  speed: 5,
+  width: 10,
+  height: 10,
+  speed: 10,
 };
 
 
