@@ -2,9 +2,15 @@ import { SettingsState } from './settings';
 
 export type TDirection = 'left' | 'right' | 'up' | 'down';
 
+type TNextStep = {
+  nextCell: number;
+  isTeleporting: boolean;
+}
+
 export interface GameState {
   isRunning: boolean;
   isGameOver: boolean;
+  isTeleportingAllowed: boolean;
   score: number;
   applePosition?: number;
   snakePosition: number[];
@@ -15,6 +21,7 @@ export interface GameState {
 const initialState: GameState = {
   isRunning: false,
   isGameOver: false,
+  isTeleportingAllowed: false,
   score: 0,
   snakePosition: [],
   snakeDirectionCurrent: 'up',
@@ -72,21 +79,22 @@ export default function reducer(state: GameState = initialState, action: GameAct
       const {
         snakeDirectionNext,
         snakePosition,
-        applePosition
+        applePosition,
+        isTeleportingAllowed,
       } = state;
       const { width, height } = action.settings;
-      const nextCell = calcNextCell(snakeDirectionNext, snakePosition[0], width, height);
+      const { nextCell, isTeleporting } = calcNextCell(snakeDirectionNext, snakePosition[0], width, height);
       const gotApple: boolean = applePosition === nextCell;
-      const isDead: boolean = calcIsDead(nextCell, snakePosition, width, height);
+      const isDead: boolean = calcIsDead(nextCell, snakePosition, isTeleportingAllowed, isTeleporting);
       const newSnakePosition: number[] = [nextCell, ...snakePosition];
       
-      if (applePosition !== nextCell && !isDead) {
-        newSnakePosition.pop()
+      if (applePosition !== nextCell) {
+        newSnakePosition.pop();
       }
       
       return {
         ...state,
-        snakePosition: newSnakePosition,
+        snakePosition: isDead ? snakePosition : newSnakePosition,
         applePosition: gotApple ? calcApplePosition(newSnakePosition, width, height) : applePosition,
         isGameOver: isDead,
         snakeDirectionCurrent: snakeDirectionNext
@@ -113,17 +121,44 @@ export const makeMove = (settings: SettingsState): MakeMoveAction => ({
   settings
 });
 
-function calcNextCell(direction: TDirection, currentCell: number, width: number, height: number): number {
+function calcNextCell(direction: TDirection, currentCell: number, width: number, height: number): TNextStep {
+  const nextStep: TNextStep = {
+    nextCell: 0,
+    isTeleporting: false
+  };
+  
   switch (direction) {
     case 'left':
-      return currentCell - 1;
+      nextStep.nextCell = currentCell - 1;
+      if (currentCell % width === 0) {
+        nextStep.nextCell = nextStep.nextCell + width;
+        nextStep.isTeleporting = true;
+      }
+      break;
     case 'right':
-      return currentCell + 1;
+      nextStep.nextCell = currentCell + 1;
+      if (nextStep.nextCell % width === 0) {
+        nextStep.nextCell = nextStep.nextCell - width;
+        nextStep.isTeleporting = true;
+      }
+      break;
     case 'up':
-      return currentCell - width;
+      nextStep.nextCell = currentCell - width;
+      if (nextStep.nextCell < 0) {
+        nextStep.nextCell = currentCell + width * (height - 1);
+        nextStep.isTeleporting = true;
+      }
+      break;
     case 'down':
-      return currentCell + width;
+      nextStep.nextCell = currentCell + width;
+      if (nextStep.nextCell > width * height -1) {
+        nextStep.nextCell = currentCell - width * (height - 1);
+        nextStep.isTeleporting = true;
+      }
+      break;
   }
+  
+  return nextStep;
 }
 
 function calcDirection(newDirection: TDirection, prevDirection: TDirection, snakePosition: number[]): TDirection {
@@ -146,6 +181,6 @@ function calcApplePosition(snakePosition: number[], width: number, height: numbe
   return result;
 }
 
-function calcIsDead(nextCell: number, snakePosition: number[], width: number, height: number): boolean {
-  return snakePosition.includes(nextCell);
+function calcIsDead(nextCell: number, snakePosition: number[], isTeleportingAllowed: boolean, isTeleporting: boolean): boolean {
+  return snakePosition.includes(nextCell) || (!isTeleportingAllowed && isTeleporting);
 }
