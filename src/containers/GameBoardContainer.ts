@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import { IStore } from '../store';
 import { GameBoard, ConnectedState, ConnectedDispatch } from '../components/GameBoard';
 import {Dispatch} from "redux";
-import { StarGameAction, startGame, makeMove, makeTurn, TDirection } from '../redux/game';
-import { SettingsState } from '../redux/settings';
+import { StarGameAction, makeTurn, TDirection } from '../redux/game';
 
 
 const mapStateToProps = (state: IStore): IStore => {
@@ -14,8 +13,6 @@ const mapStateToProps = (state: IStore): IStore => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
-  onGameStart: (settings: SettingsState) => () => dispatch(startGame(settings)),
-  onMakeMove: (settings: SettingsState) => () => dispatch(makeMove(settings)),
   onMakeTurn: (direction: TDirection) => dispatch(makeTurn(direction)),
 });
 
@@ -25,8 +22,6 @@ const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispat
 
   return {
     ...dispatchProps,
-    onMakeMove: dispatchProps.onMakeMove(stateProps.settings),
-    onGameStart: dispatchProps.onGameStart(stateProps.settings),
     snakePosition,
     height,
     width,

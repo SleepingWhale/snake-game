@@ -2,16 +2,8 @@ import * as React from 'react';
 import { Cell } from './Cell';
 import { TDirection } from '../redux/game';
 import * as styles from './gameBoard.css';
+import { keyCodes } from '../common';
 
-
-enum keyCodes {
-  left = 37,
-  up = 38,
-  right = 39,
-  down = 40,
-  space = 32,
-  pause = 80
-}
 
 
 export type ConnectedState = {
@@ -25,21 +17,10 @@ export type ConnectedState = {
 };
 
 export type ConnectedDispatch = {
-  onGameStart: () => void;
-  onMakeMove: () => void;
   onMakeTurn: (direction: TDirection) => void;
 }
 
-
-export class GameBoard extends React.Component<ConnectedState & ConnectedDispatch, {isPaused: boolean}> {
-  
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      isPaused: false
-    }
-  }
+export class GameBoard extends React.Component<ConnectedState & ConnectedDispatch, {}> {
   
   componentDidMount() {
     document.addEventListener("keydown", this.onKeyPressed);
@@ -47,22 +28,15 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.onKeyPressed);
-    this.stopMoving();
   }
   
   componentDidUpdate() {
     if (this.props.isRunning && this.props.isGameOver) {
-      this.stopMoving();
     }
   }
 
   onKeyPressed = (e) => {
     switch (e.keyCode) {
-      case keyCodes.space:
-        if (this.props.isRunning) this.stopMoving();
-        this.props.onGameStart();
-        this.startMoving();
-        break;
       case keyCodes.left:
         this.props.onMakeTurn('left');
         break;
@@ -75,30 +49,8 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
       case keyCodes.down:
         this.props.onMakeTurn('down');
         break;
-      case keyCodes.pause: {
-        const { isPaused } = this.state;
-        
-        if (isPaused) {
-          this.startMoving();
-        } else {
-          this.stopMoving();
-        }
-        this.setState(() => ({ isPaused: !isPaused }));
-        break;
-      }
     }
   };
-  
-  interval;
-  
-  startMoving = () => {
-    this.interval = setInterval(this.props.onMakeMove, 5000 / this.props.speed);
-  };
-  
-  stopMoving = () => {
-    clearInterval(this.interval);
-  };
-  
   
   render() {
     const {

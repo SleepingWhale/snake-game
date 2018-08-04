@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { SettingsPanel } from './SettingsPanel';
-import { GameBoardContainer } from '../containers';
+import { GameBoardContainer, SettingsPanelContainer } from '../containers';
 import * as style from './layout.css';
 
 
@@ -8,7 +7,7 @@ export const Layout: React.SFC = () => {
   return (
     <React.Fragment>
       <div className={style.mainWrapper}>
-        <SettingsPanel />
+        <SettingsPanelContainer />
         <GameBoardContainer />
       </div>
     </React.Fragment>
