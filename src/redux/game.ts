@@ -17,7 +17,6 @@ export type TNextStep = {
 export interface GameState {
   isRunning: boolean;
   isGameOver: boolean;
-  isTeleportingAllowed: boolean;
   score: number;
   applePosition?: number;
   snakePosition: number[];
@@ -28,7 +27,6 @@ export interface GameState {
 const initialState: GameState = {
   isRunning: false,
   isGameOver: false,
-  isTeleportingAllowed: false,
   score: 0,
   snakePosition: [],
   snakeDirectionCurrent: 'up',
@@ -87,12 +85,11 @@ export default function reducer(state: GameState = initialState, action: GameAct
         snakeDirectionNext,
         snakePosition,
         applePosition,
-        isTeleportingAllowed,
       } = state;
-      const { width, height } = action.settings;
+      const { width, height, isTeleportationAllowed } = action.settings;
       const { nextCell, isTeleporting } = calcNextCell(snakeDirectionNext, snakePosition[0], width, height);
       const gotApple: boolean = applePosition === nextCell;
-      const isDead: boolean = calcIsDead(nextCell, snakePosition, isTeleportingAllowed, isTeleporting);
+      const isDead: boolean = calcIsDead(nextCell, snakePosition, isTeleportationAllowed, isTeleporting);
       const newSnakePosition: number[] = [nextCell, ...snakePosition];
       
       if (applePosition !== nextCell) {

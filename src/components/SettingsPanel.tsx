@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RangeContainer } from '../containers';
+import { RangeContainer, CheckboxContainer } from '../containers';
 import * as styles from './settingsPanel.css';
 
 
@@ -18,6 +18,10 @@ export const SettingsPanel: React.SFC = () => {
       <div className={styles.settingsItem}>
         <label htmlFor="speed">Speed</label>
         <RangeContainer name="speed" min={1} max={100} />
+      </div>
+      <div className={styles.settingsItem}>
+        <label htmlFor="isTeleportationAllowed">Allow teleportation</label>
+        <CheckboxContainer name="isTeleportationAllowed" />
       </div>
     </div>
   );

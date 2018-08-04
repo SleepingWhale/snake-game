@@ -2,17 +2,19 @@ export interface SettingsState {
   width: number;
   height: number;
   speed: number;
+  isTeleportationAllowed: boolean;
 }
 
 export interface SettingsActionPayload {
   name: string;
-  value: number;
+  value: number | boolean;
 }
 
 const initialState: SettingsState = {
   width: 10,
   height: 10,
   speed: 10,
+  isTeleportationAllowed: false
 };
 
 
