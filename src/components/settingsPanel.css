@@ -1,0 +1,14 @@
+.settingsPanel {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, max-content));
+  font-size: 20px;
+}
+
+.settingsItem {
+  display: inline-block;
+}
+
+.settingsItem label {
+  margin-right: 5px;
+}

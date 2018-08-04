@@ -5,4 +5,5 @@
   left: 0;
   right: 0;
   display: grid;
+  grid-template-rows: minmax(min-content, max-content) auto;
 }

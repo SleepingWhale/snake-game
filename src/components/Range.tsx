@@ -27,15 +27,20 @@ export class Range extends React.Component<ConnectedState & ConnectedDispatch & 
   render() {
     const {
       onValueChange,
+      value,
       ...inputProps
     } = this.props;
     
     return (
-      <input
-        {...inputProps}
-        type="range"
-        onChange={this.handleChange}
-      />
+      <React.Fragment>
+        <input
+          {...inputProps}
+          value={value}
+          type="range"
+          onChange={this.handleChange}
+        />
+        {value}
+      </React.Fragment>
     );
   }
 }
