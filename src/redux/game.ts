@@ -101,7 +101,8 @@ export default function reducer(state: GameState = initialState, action: GameAct
         snakePosition: isDead ? snakePosition : newSnakePosition,
         applePosition: gotApple ? calcApplePosition(newSnakePosition, width, height) : applePosition,
         isGameOver: isDead,
-        snakeDirectionCurrent: snakeDirectionNext
+        snakeDirectionCurrent: snakeDirectionNext,
+        score: gotApple ? state.score + 1 : state.score
       };
     }
     default:

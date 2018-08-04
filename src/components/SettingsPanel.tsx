@@ -10,6 +10,7 @@ export type ConnectedState = {
   height: number;
   speed: number;
   isTeleportationAllowed: boolean;
+  score: number;
 };
 
 export type ConnectedDispatch = {
@@ -88,7 +89,8 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
       onCheckboxChange,
       onRangeChange,
       isRunning,
-      isGameOver
+      isGameOver,
+      score
     } = this.props;
     const isFormDisabled = isRunning && !isGameOver;
     
@@ -144,7 +146,10 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
           />
         </div>
         <div className={styles.settingsItem}>
-          <button onClick={this.startGame}>{isRunning ? 'Restart' : 'Start!'}</button>
+          <div className={styles.settingsItemWithSpace}>
+            <span>Your score: {score}</span>
+            <button onClick={this.startGame}>{isRunning ? 'Restart' : 'Start!'}</button>
+          </div>
         </div>
       </div>
     );

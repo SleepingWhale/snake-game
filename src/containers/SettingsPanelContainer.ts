@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
 });
 
 const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispatch => {
-  const { isRunning, isGameOver } = stateProps.game;
+  const { isRunning, isGameOver, score } = stateProps.game;
   
   return {
     ...dispatchProps,
@@ -37,7 +37,8 @@ const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispat
     onGameStart: dispatchProps.onGameStart(stateProps.settings),
     onMakeMove: dispatchProps.onMakeMove(stateProps.settings),
     isRunning,
-    isGameOver
+    isGameOver,
+    score
   };
 };
 
