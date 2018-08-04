@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as style from './cell.css';
 
 
 export type CellProps = {
@@ -12,12 +13,11 @@ export class Cell extends React.PureComponent<CellProps> {
   render() {
     const { status = 0 } = this.props;
     const cellStyle = {
-      backgroundColor: colors[status],
-      border: '1px solid black',
+      backgroundColor: colors[status]
     };
     
     return (
-      <div style={cellStyle} />
+      <div style={cellStyle} className={style.cell} />
     );
   }
 }

@@ -1,0 +1,5 @@
+.gameBoard {
+  display: grid;
+  grid-gap: 1px;
+  margin: auto;
+}

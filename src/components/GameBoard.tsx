@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Cell } from './Cell';
 import { TDirection } from '../redux/game';
+import * as styles from './gameBoard.css';
+
 
 enum keyCodes {
   left = 37,
@@ -55,7 +57,6 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
   }
 
   onKeyPressed = (e) => {
-    console.log(e.keyCode);
     switch (e.keyCode) {
       case keyCodes.space:
         if (this.props.isRunning) this.stopMoving();
@@ -91,7 +92,7 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
   interval;
   
   startMoving = () => {
-    this.interval = setInterval(this.props.onMakeMove, 1000 / this.props.speed);
+    this.interval = setInterval(this.props.onMakeMove, 5000 / this.props.speed);
   };
   
   stopMoving = () => {
@@ -106,12 +107,10 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
       snakePosition,
       applePosition
     } = this.props;
-    const cells = [];
+    const cells: JSX.Element[] = [];
     const gameBoardStyle = {
-      display: 'grid',
       gridTemplateColumns: `repeat(${width}, 20px)`,
       gridTemplateRows: `repeat(${height}, 20px)`,
-      gridGap: '1px',
     };
     
     for (let i = 0; i < width * height; i++) {
@@ -126,7 +125,7 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
     }
     
     return (
-      <div style={gameBoardStyle}>
+      <div style={gameBoardStyle} className={styles.gameBoard}>
         {cells}
       </div>
     );

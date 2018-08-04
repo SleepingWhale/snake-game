@@ -1,6 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 const paths = {
   src: path.resolve(__dirname, 'src'),
@@ -25,14 +28,34 @@ const config = {
       {
         test: /\.tsx?$/,
         loader: 'awesome-typescript-loader'
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract(
+          {
+            fallback: 'style-loader',
+            use: [
+              {
+                loader: 'typings-for-css-modules-loader?modules&namedExport&camelCase',
+                options: {
+                  modules: true,
+                  namedExport: true
+                }
+              }
+            ]
+          })
       }
     ]
   },
   plugins: [
+    new webpack.WatchIgnorePlugin([
+      /css\.d\.ts$/
+    ]),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       template: './index.html'
-    })
+    }),
+    new ExtractTextPlugin({filename: 'style.css'})
   ]
 };
 
