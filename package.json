@@ -1,5 +1,6 @@
 {
   "name": "snake-game",
+  "repository": "https://github.com/SleepingWhale/snake-game.git",
   "version": "1.0.0",
   "description": "snake with react",
   "main": "index.js",
