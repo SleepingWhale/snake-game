@@ -40,7 +40,7 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
   }
   
   componentDidUpdate() {
-    if (this.props.isRunning && this.props.isGameOver) {
+    if (!this.props.isRunning && this.props.isGameOver) {
       this.stopMoving();
     }
   }
@@ -48,7 +48,7 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
   onKeyPressed = (e) => {
     switch (e.keyCode) {
       case KeyCodes.space:
-        this.startGame();
+        if (!this.props.isRunning) this.startGame();
         break;
       case KeyCodes.pause: {
         const { isPaused } = this.state;
@@ -75,7 +75,6 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
   };
   
   startGame = () => {
-    if (this.props.isRunning) this.stopMoving();
     this.props.onGameStart();
     this.startMoving();
   };
@@ -148,7 +147,12 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
         <div className={styles.settingsItem}>
           <div className={styles.settingsItemWithSpace}>
             <span>Your score: {score}</span>
-            <button onClick={this.startGame}>{isRunning ? 'Restart' : 'Start!'}</button>
+            <button
+              onClick={this.startGame}
+              disabled={isFormDisabled}
+            >
+              Start!
+            </button>
           </div>
         </div>
       </div>
