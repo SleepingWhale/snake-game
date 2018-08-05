@@ -1,0 +1,50 @@
+._30DWTTNhyJoL9DKz64Spaw {
+  border: 1px solid black;
+}
+
+._3-QxgG8SmU62RecpTNu-Oq {
+  background-color: white;
+}
+
+._3xxGWABEMpmtKSBL9sxaVr {
+  background-color: grey;
+}
+
+._2QDRSVXvgvHa3BlPI5DJaX {
+  background-color: red;
+}
+.BCycmMYgJzQHonNlh-lRY {
+  display: grid;
+  grid-gap: 1px;
+  margin: auto;
+}
+._1l3uqdAkgrhk_ThMobn0oS {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, max-content));
+  font-size: 20px;
+}
+
+._1doUruCwPTUhAbXGRFQaAk {
+  display: inline-block;
+}
+
+._303NBxu_xKv2OmiojoPMzP {
+  display: flex;
+  justify-content: space-between;
+}
+
+._1doUruCwPTUhAbXGRFQaAk label {
+  margin-right: 5px;
+}
+._1Ntp1j2EHaLYUC3qyp3MZJ {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-rows: minmax(min-content, max-content) auto;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
