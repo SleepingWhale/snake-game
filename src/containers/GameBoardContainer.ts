@@ -2,26 +2,14 @@ import { connect } from 'react-redux';
 import { IStore } from '../store';
 import { GameBoard, ConnectedState, ConnectedDispatch } from '../components/GameBoard';
 import {Dispatch} from "redux";
-import { StarGameAction, makeTurn, TDirection } from '../redux/game';
+import { StarGameAction, makeTurn, DirectionType } from '../redux/game';
 
 
-const mapStateToProps = (state: IStore): IStore => {
-  const { game, settings } = state;
+const mapStateToProps = (state: IStore): ConnectedState => {
+  const { height, width, speed } = state.settings;
+  const { snakePosition, isRunning, applePosition, isGameOver } = state.game;
   
-  return { game, settings };
-  
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
-  onMakeTurn: (direction: TDirection) => dispatch(makeTurn(direction)),
-});
-
-const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispatch => {
-  const { height, width, speed } = stateProps.settings;
-  const { snakePosition, isRunning, applePosition, isGameOver } = stateProps.game;
-
   return {
-    ...dispatchProps,
     snakePosition,
     height,
     width,
@@ -30,7 +18,12 @@ const mergeProps = (stateProps, dispatchProps): ConnectedState & ConnectedDispat
     isGameOver,
     applePosition
   };
+  
 };
 
-export const GameBoardContainer =
-  connect(mapStateToProps, mapDispatchToProps, mergeProps)(GameBoard);
+const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>): ConnectedDispatch => ({
+  onMakeTurn: (direction: DirectionType) => dispatch(makeTurn(direction)),
+});
+
+
+export const GameBoardContainer = connect<ConnectedState, ConnectedDispatch>(mapStateToProps, mapDispatchToProps)(GameBoard);

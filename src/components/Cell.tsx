@@ -6,18 +6,14 @@ export type CellProps = {
   status: number,
 };
 
-const colors = ['white', 'grey', 'red'];
-
 
 export class Cell extends React.PureComponent<CellProps> {
   render() {
     const { status = 0 } = this.props;
-    const cellStyle = {
-      backgroundColor: colors[status]
-    };
+    const styleModifier = style[`cell__status${status}`];
     
     return (
-      <div style={cellStyle} className={style.cell} />
+      <div className={`${style.cell} ${styleModifier}`} />
     );
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as styles from './settingsPanel.css';
-import { keyCodes } from '../common';
+import { KeyCodes } from '../common';
 
 
 export type ConnectedState = {
@@ -47,10 +47,10 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
   
   onKeyPressed = (e) => {
     switch (e.keyCode) {
-      case keyCodes.space:
+      case KeyCodes.space:
         this.startGame();
         break;
-      case keyCodes.pause: {
+      case KeyCodes.pause: {
         const { isPaused } = this.state;
         
         if (isPaused) {

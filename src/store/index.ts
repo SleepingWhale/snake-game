@@ -3,7 +3,7 @@ import rootReducer from '../redux';
 import { SettingsState } from '../redux/settings';
 import { GameState } from '../redux/game';
 
-export interface IStore {
+export type IStore = {
   settings: SettingsState,
   game: GameState
 }

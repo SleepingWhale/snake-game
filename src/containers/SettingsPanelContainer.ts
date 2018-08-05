@@ -3,7 +3,7 @@ import { IStore } from '../store';
 import { SettingsPanel, ConnectedState, ConnectedDispatch } from '../components/SettingsPanel';
 import {Dispatch} from "redux";
 import {makeMove, StarGameAction, startGame} from '../redux/game';
-import {set, SettingsState} from '../redux/settings';
+import {updateSettings, SettingsState} from '../redux/settings';
 
 
 const mapStateToProps = (state: IStore): IStore => {
@@ -18,12 +18,12 @@ const mapDispatchToProps = (dispatch: Dispatch<StarGameAction>) => ({
   onCheckboxChange: (event) => {
     const { checked, name } = event.currentTarget;
     
-    dispatch(set({ value: checked, name }));
+    dispatch(updateSettings({ value: checked, name }));
   },
   onRangeChange: (event) => {
     const { value, name } = event.currentTarget;
     
-    dispatch(set({ value: parseInt(value, 10), name }));
+    dispatch(updateSettings({ value: parseInt(value, 10), name }));
   },
   onMakeMove: (settings: SettingsState) => () => dispatch(makeMove(settings)),
 });

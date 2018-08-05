@@ -1,13 +1,17 @@
-import { TDirection, TNextStep } from './game';
+import { DirectionType } from './game';
 
+type NextStep = {
+  nextCell: number;
+  isTeleporting: boolean;
+}
 
 export function calcNextCell(
-  direction: TDirection,
+  direction: DirectionType,
   currentCell: number,
   width: number,
   height: number
-): TNextStep {
-  const nextStep: TNextStep = {
+): NextStep {
+  const nextStep: NextStep = {
     nextCell: 0,
     isTeleporting: false
   };
@@ -47,10 +51,10 @@ export function calcNextCell(
 }
 
 export function calcDirection(
-  newDirection: TDirection,
-  prevDirection: TDirection,
+  newDirection: DirectionType,
+  prevDirection: DirectionType,
   snakePosition: number[]
-): TDirection {
+): DirectionType {
   if (((newDirection === 'left' && prevDirection === 'right')
     || (newDirection === 'right' && prevDirection === 'left')
     || (newDirection === 'up' && prevDirection === 'down')

@@ -1,11 +1,11 @@
-export interface SettingsState {
+export type SettingsState = {
   width: number;
   height: number;
   speed: number;
   isTeleportationAllowed: boolean;
 }
 
-export interface SettingsActionPayload {
+export type SettingsActionPayload = {
   name: string;
   value: number | boolean;
 }
@@ -41,7 +41,7 @@ export default function reducer(state: SettingsState = initialState, action: Cha
 }
 
 
-export const set = (payload: SettingsActionPayload): ChangeSettingsAction => ({
+export const updateSettings = (payload: SettingsActionPayload): ChangeSettingsAction => ({
   type: SETTINGS_UPDATE,
   payload
 });

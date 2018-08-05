@@ -1,3 +1,15 @@
 .cell {
   border: 1px solid black;
 }
+
+.cell__status0 {
+  background-color: white;
+}
+
+.cell__status1 {
+  background-color: grey;
+}
+
+.cell__status2 {
+  background-color: red;
+}

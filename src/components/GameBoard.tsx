@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Cell } from './Cell';
-import { TDirection } from '../redux/game';
+import { DirectionType } from '../redux/game';
 import * as styles from './gameBoard.css';
-import { keyCodes } from '../common';
+import { KeyCodes } from '../common';
 
 
 
@@ -17,7 +17,7 @@ export type ConnectedState = {
 };
 
 export type ConnectedDispatch = {
-  onMakeTurn: (direction: TDirection) => void;
+  onMakeTurn: (direction: DirectionType) => void;
 }
 
 export class GameBoard extends React.Component<ConnectedState & ConnectedDispatch, {}> {
@@ -37,16 +37,16 @@ export class GameBoard extends React.Component<ConnectedState & ConnectedDispatc
 
   onKeyPressed = (e) => {
     switch (e.keyCode) {
-      case keyCodes.left:
+      case KeyCodes.left:
         this.props.onMakeTurn('left');
         break;
-      case keyCodes.right:
+      case KeyCodes.right:
         this.props.onMakeTurn('right');
         break;
-      case keyCodes.up:
+      case KeyCodes.up:
         this.props.onMakeTurn('up');
         break;
-      case keyCodes.down:
+      case KeyCodes.down:
         this.props.onMakeTurn('down');
         break;
     }

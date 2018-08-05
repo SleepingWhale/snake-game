@@ -1,4 +1,4 @@
-export enum keyCodes {
+export enum KeyCodes {
   left = 37,
   up = 38,
   right = 39,

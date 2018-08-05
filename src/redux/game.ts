@@ -7,21 +7,16 @@ import {
 } from './gameHelpers';
 
 
-export type TDirection = 'left' | 'right' | 'up' | 'down';
+export type DirectionType = 'left' | 'right' | 'up' | 'down';
 
-export type TNextStep = {
-  nextCell: number;
-  isTeleporting: boolean;
-}
-
-export interface GameState {
+export type GameState = {
   isRunning: boolean;
   isGameOver: boolean;
   score: number;
   applePosition?: number;
   snakePosition: number[];
-  snakeDirectionCurrent: TDirection;
-  snakeDirectionNext: TDirection;
+  snakeDirectionCurrent: DirectionType;
+  snakeDirectionNext: DirectionType;
 }
 
 const initialState: GameState = {
@@ -44,17 +39,17 @@ const GAME_MAKE_MOVE = 'GAME_MAKE_MOVE';
 type GAME_MAKE_MOVE = typeof GAME_MAKE_MOVE;
 
 
-export interface StarGameAction {
+export type StarGameAction = {
   type: GAME_START;
   settings: SettingsState;
 }
 
-export interface MakeTurnAction {
+export type MakeTurnAction = {
   type: GAME_MAKE_TURN;
-  payload: TDirection;
+  payload: DirectionType;
 }
 
-export interface MakeMoveAction {
+export type MakeMoveAction = {
   type: GAME_MAKE_MOVE;
   settings: SettingsState;
 }
@@ -116,7 +111,7 @@ export const startGame = (settings: SettingsState): StarGameAction => ({
   settings
 });
 
-export const makeTurn = (direction: TDirection): MakeTurnAction => ({
+export const makeTurn = (direction: DirectionType): MakeTurnAction => ({
   type: GAME_MAKE_TURN,
   payload: direction
 });
