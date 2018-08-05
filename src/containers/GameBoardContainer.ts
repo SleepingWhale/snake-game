@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { IStore } from '../store';
 import { GameBoard, ConnectedState, ConnectedDispatch } from '../components/GameBoard';
-import {Dispatch} from "redux";
-import { StarGameAction, makeTurn, DirectionType } from '../redux/game';
+import { makeTurn } from '../redux/game';
+import { DirectionType, StarGameAction } from '../@types/game';
 
 
 const mapStateToProps = (state: IStore): ConnectedState => {

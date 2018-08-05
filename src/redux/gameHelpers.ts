@@ -1,4 +1,4 @@
-import { DirectionType } from './game';
+import { DirectionType } from '../@types/game';
 
 type NextStep = {
   nextCell: number;

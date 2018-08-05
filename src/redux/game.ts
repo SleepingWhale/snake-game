@@ -1,24 +1,23 @@
-import { SettingsState } from './settings';
 import {
   calcApplePosition,
   calcDirection,
   calcIsDead,
   calcNextCell
 } from './gameHelpers';
+import {
+  DirectionType,
+  GameAction, gameMakeMove, gameMakeTurn, gameStart,
+  GameState,
+  MakeMoveAction,
+  MakeTurnAction,
+  StarGameAction,
+} from '../@types/game';
+import { SettingsState } from '../@types/settings';
 
 
-export type DirectionType = 'left' | 'right' | 'up' | 'down';
-
-export type GameState = {
-  isRunning: boolean;
-  isGameOver: boolean;
-  score: number;
-  applePosition?: number;
-  snakePosition: number[];
-  snakeDirectionCurrent: DirectionType;
-  snakeDirectionNext: DirectionType;
-}
-
+const GAME_START: gameStart = 'GAME_START';
+const GAME_MAKE_TURN: gameMakeTurn = 'GAME_MAKE_TURN';
+const GAME_MAKE_MOVE: gameMakeMove = 'GAME_MAKE_MOVE';
 const initialState: GameState = {
   isRunning: false,
   isGameOver: false,
@@ -27,34 +26,6 @@ const initialState: GameState = {
   snakeDirectionCurrent: 'up',
   snakeDirectionNext: 'up'
 };
-
-
-const GAME_START = 'GAME_START';
-type GAME_START = typeof GAME_START;
-
-const GAME_MAKE_TURN = 'GAME_MAKE_TURN';
-type GAME_MAKE_TURN = typeof GAME_MAKE_TURN;
-
-const GAME_MAKE_MOVE = 'GAME_MAKE_MOVE';
-type GAME_MAKE_MOVE = typeof GAME_MAKE_MOVE;
-
-
-export type StarGameAction = {
-  type: GAME_START;
-  settings: SettingsState;
-}
-
-export type MakeTurnAction = {
-  type: GAME_MAKE_TURN;
-  payload: DirectionType;
-}
-
-export type MakeMoveAction = {
-  type: GAME_MAKE_MOVE;
-  settings: SettingsState;
-}
-
-type GameAction = StarGameAction | MakeTurnAction | MakeMoveAction;
 
 
 export default function reducer(state: GameState = initialState, action: GameAction): GameState {

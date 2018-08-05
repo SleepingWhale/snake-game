@@ -10,6 +10,11 @@
       "es7"
     ]
   },
-  "include": ["src"],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
+  "files": [
+    "src/@types/game.d.ts",
+    "src/@types/settings.d.ts"
+  ]
 }

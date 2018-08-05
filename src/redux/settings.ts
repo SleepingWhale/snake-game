@@ -1,14 +1,10 @@
-export type SettingsState = {
-  width: number;
-  height: number;
-  speed: number;
-  isTeleportationAllowed: boolean;
-}
+import {
+  ChangeSettingsAction,
+  SettingsActionPayload,
+  SettingsState,
+  settingsUpdate,
+} from '../@types/settings';
 
-export type SettingsActionPayload = {
-  name: string;
-  value: number | boolean;
-}
 
 const initialState: SettingsState = {
   width: 10,
@@ -16,17 +12,7 @@ const initialState: SettingsState = {
   speed: 10,
   isTeleportationAllowed: false
 };
-
-
-const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
-type SETTINGS_UPDATE = typeof SETTINGS_UPDATE;
-
-
-export interface ChangeSettingsAction {
-  type: SETTINGS_UPDATE;
-  payload: SettingsActionPayload;
-}
-
+const SETTINGS_UPDATE: settingsUpdate = 'SETTINGS_UPDATE';
 
 export default function reducer(state: SettingsState = initialState, action: ChangeSettingsAction): SettingsState {
   switch (action.type) {
@@ -39,7 +25,6 @@ export default function reducer(state: SettingsState = initialState, action: Cha
       return state;
   }
 }
-
 
 export const updateSettings = (payload: SettingsActionPayload): ChangeSettingsAction => ({
   type: SETTINGS_UPDATE,

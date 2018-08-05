@@ -1,7 +1,8 @@
 import { createStore } from 'redux';
 import rootReducer from '../redux';
-import { SettingsState } from '../redux/settings';
-import { GameState } from '../redux/game';
+import { GameState } from '../@types/game';
+import { SettingsState } from '../@types/settings';
+
 
 export type IStore = {
   settings: SettingsState,

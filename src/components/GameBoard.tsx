@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Cell } from './Cell';
-import { DirectionType } from '../redux/game';
 import * as styles from './gameBoard.css';
 import { KeyCodes } from '../common';
+import { DirectionType } from '../@types/game';
 
 
 

@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { IStore } from '../store';
 import { SettingsPanel, ConnectedState, ConnectedDispatch } from '../components/SettingsPanel';
-import {Dispatch} from "redux";
-import {makeMove, StarGameAction, startGame} from '../redux/game';
-import {updateSettings, SettingsState} from '../redux/settings';
+import { makeMove, startGame } from '../redux/game';
+import { updateSettings } from '../redux/settings';
+import { StarGameAction } from '../@types/game';
+import { SettingsState } from '../@types/settings';
 
 
 const mapStateToProps = (state: IStore): IStore => {
