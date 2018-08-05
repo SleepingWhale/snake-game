@@ -46,19 +46,23 @@ export class SettingsPanel extends React.Component<ConnectedState & ConnectedDis
   }
   
   onKeyPressed = (e) => {
+    const { isRunning } = this.props;
+    
     switch (e.keyCode) {
       case KeyCodes.space:
-        if (!this.props.isRunning) this.startGame();
+        if (!isRunning) this.startGame();
         break;
       case KeyCodes.pause: {
         const { isPaused } = this.state;
         
-        if (isPaused) {
-          this.startMoving();
-        } else {
-          this.stopMoving();
+        if (isRunning) {
+          if (isPaused) {
+            this.startMoving();
+          } else {
+            this.stopMoving();
+          }
+          this.setState(() => ({isPaused: !isPaused}));
         }
-        this.setState(() => ({ isPaused: !isPaused }));
         break;
       }
     }
